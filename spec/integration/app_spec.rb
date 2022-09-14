@@ -14,7 +14,7 @@ describe Application do
   # generates a method called 'app' which returns a new instance of 'Application'
 
 
-  context "GET to /" do
+  context "GET /" do
     it "returns 200 OK with the right content" do
       # Send a GET request to /
       # and returns a response object we can test.
@@ -22,11 +22,11 @@ describe Application do
 
       # Assert the response status code and body.
       expect(response.status).to eq(200)
-      expect(response.body).to eq("hello!")
+      expect(response.body).to include('<h1>Hello!</h1>')
     end
   end
 
-  context "POST to /submit" do
+  context "POST /submit" do
     it "returns 200 OK with the right content" do
       # Send a POST request to /submit
       # with some body parameters
@@ -40,7 +40,7 @@ describe Application do
   end
 
   context "GET /names" do
-    it 'returns a string of names' do
+    it 'returns 200 OK with a string of names' do
 
       response = get('/names?name=Julia, Mary, Karim')
 
@@ -48,5 +48,13 @@ describe Application do
       expect(response.body).to eq('Julia, Mary, Karim')
     end
   end
+  # co-authored-by: Marina
+
+  context "POST /sort_names" do
+    it "receive: a list of names; return: same list sorted alphabetically" do
+      response = post('/sort_names', names: 'Joe,Alice,Zoe,Julia,Kieran')
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('Alice,Joe,Julia,Kieran,Zoe')
+    end
+  end
 end
-# co-authored-by: Marina
